@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="form-box">
+    <h1>Thank You</h1>
+    <p>تم تسجيل طلبك رقم #{{ order.id }}</p>
+    <p>Status: <b>{{ order.status }}</b></p>
+    <p>سنتحقق من الدفع ثم نبدأ تنفيذ المشروع.</p>
+</div>
+{% endblock %}

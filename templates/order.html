@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="form-box">
+    <h1>Order: {{ service.name }}</h1>
+    <p>Price: ${{ service.price }}</p>
+
+    <form method="POST">
+        <label>Your Name</label>
+        <input name="customer_name" required>
+
+        <label>Email / Telegram</label>
+        <input name="email" required>
+
+        <label>Project Details</label>
+        <textarea name="note" rows="5" placeholder="اكتب تفاصيل المشروع المطلوب"></textarea>
+
+        <button class="btn" type="submit">Continue to Payment</button>
+    </form>
+</div>
+{% endblock %}

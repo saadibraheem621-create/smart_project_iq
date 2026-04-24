@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="form-box">
+    <h1>Payment</h1>
+    <p>Order #{{ order.id }}</p>
+    <p>Service: {{ order.service_name }}</p>
+    <p>Amount: <b>{{ order.price }} USDT</b></p>
+
+    <div class="wallet">
+        <p>Send USDT using TRC20 network to:</p>
+        <code>{{ wallet }}</code>
+    </div>
+
+    <form method="POST">
+        <label>Transaction ID / TxID</label>
+        <input name="txid" placeholder="ضع رقم التحويل بعد الدفع" required>
+        <button class="btn" type="submit">I Paid</button>
+    </form>
+</div>
+{% endblock %}

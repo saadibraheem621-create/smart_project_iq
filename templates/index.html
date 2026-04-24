@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+    <h1>Professional Data & AI Services</h1>
+    <p>بيع خدمات تحليل البيانات، الداشبورد، والذكاء الاصطناعي مع دفع USDT.</p>
+</section>
+
+<div class="cards">
+    {% for service in services %}
+    <div class="card">
+        <h2>{{ service.name }}</h2>
+        <p>{{ service.desc }}</p>
+        <h3>${{ service.price }}</h3>
+        <a class="btn" href="/order/{{ service.id }}">Order Now</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
