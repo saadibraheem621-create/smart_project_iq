@@ -11,7 +11,9 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
 # ضع هنا عنوان محفظتك USDT TRC20 من Binance
-USDT_TRC20_WALLET = ("TTDgpsoLSry46z2cXaiXd9uxN8vj8pL3ov")
+import os
+
+USDT_TRC20_WALLET = os.environ.get("WALLET")
 
 SERVICES = [
     {"id": "data-analysis", "name": "Data Analysis Report", "price": 50, "desc": "تحليل بيانات + رسوم بيانية + تقرير PDF"},
