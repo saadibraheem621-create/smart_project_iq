@@ -39,7 +39,7 @@ with app.app_context():
     db.create_all
     print("database connected and tables created")
     class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))
 
 # إعدادات
@@ -105,14 +105,6 @@ def order(service_id):
     return render_template("order.html", service=service)
 
 # صفحة الدفع
-<form method="POST">
-    <select name="method">
-        <option value="usdt">USDT</option>
-        <option value="paypal">PayPal</option>
-        <option value="card">Visa / MasterCard</option>
-    </select>
-    <button type="submit">اختيار</button>
-</form>
 @app.route("/pay/<int:order_id>", methods=["GET", "POST"])
 def pay(order_id):
     order = Order.query.get_or_404(order_id)

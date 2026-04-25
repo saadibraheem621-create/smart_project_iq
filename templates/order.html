@@ -5,16 +5,12 @@
     <p>Price: ${{ service.price }}</p>
 
     <form method="POST">
-        <label>Your Name</label>
-        <input name="customer_name" required>
-
-        <label>Email / Telegram</label>
-        <input name="email" required>
-
-        <label>Project Details</label>
-        <textarea name="note" rows="5" placeholder="اكتب تفاصيل المشروع المطلوب"></textarea>
-
-        <button class="btn" type="submit">Continue to Payment</button>
-    </form>
+    <select name="method">
+        <option value="usdt">USDT</option>
+        <option value="paypal">PayPal</option>
+        <option value="card">Visa / MasterCard</option>
+    </select>
+    <button type="submit">اختيار</button>
+</form>
 </div>
 {% endblock %}
