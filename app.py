@@ -3,6 +3,22 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import os
 import urllib.parse
+import os
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+
+url = os.environ.get("DATABASE_URL")
+
+# حل مشكلة postgres://
+if url.startswith("postgres://"):
+    url = url.replace("postgres://", "postgresql://", 1)
+
+app.config["SQLALCHEMY_DATABASE_URI"] = url
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+db = SQLAlchemy(app)
 
 app = Flask(__name__)
 
@@ -138,3 +154,5 @@ def mark_paid(order_id):
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+    with app.app_context():
+    db.create_all()
