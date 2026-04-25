@@ -1,4 +1,5 @@
 <div class="wallet" style="text-align:center;">
+
     <p><b>Send USDT (TRC20) to:</b></p>
 
     <input id="walletInput" type="text" value="{{ wallet }}" readonly style="width:100%; text-align:center;">
@@ -14,13 +15,15 @@
     <img src="{{ url_for('static', filename='qr.png') }}" width="220">
 
     <p style="color:gray; font-size:14px;">
-        امسح الباركود أو انسخ العنوان للدفع
+        انسخ الباركود أو انسخ العنوان للدفع
     </p>
-</div>
 
-<button onclick="confirmPayment()" class="btn">
-    دفعت
-</button>
+    <!-- هذا المهم -->
+    <button onclick="confirmPayment()" class="btn">
+        دفعت
+    </button>
+
+</div>
 
 <script>
 function confirmPayment() {
