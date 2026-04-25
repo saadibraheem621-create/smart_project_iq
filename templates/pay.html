@@ -30,3 +30,14 @@ function confirmPayment() {
     alert("تم استلام طلبك، جاري التحقق من الدفع");
 }
 </script>
+<script>
+function confirmPayment() {
+    fetch('/confirm_payment', {
+        method: 'POST'
+    })
+    .then(res => res.json())
+    .then(data => {
+        alert(data.message);
+    });
+}
+</script>

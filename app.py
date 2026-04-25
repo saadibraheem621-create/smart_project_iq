@@ -3,6 +3,11 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import os
 import urllib.parse
+from flask import Flask, render_template, jsonify
+
+@app.route('/confirm_payment', methods=['POST'])
+def confirm_payment():
+    return jsonify({"message": "تم استلام طلبك، سيتم التحقق من الدفع"})
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "change-this-secret")
