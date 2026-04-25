@@ -1,61 +1,29 @@
-{% extends "base.html" %}
-{% block content %}
-<div class="form-box">
-    <h1>Payment</h1>
-    <p>Order #{{ order.id }}</p>
-    <p>Service: {{ order.service_name }}</p>
-    <p>Amount: <b>{{ order.price }} USDT</b></p>
-
-    <div class="wallet">
-        <p>Send USDT using TRC20 network to:</p>
-        <div class="wallet" style="text-align:center;">
+<div class="wallet" style="text-align:center;">
     <p><b>Send USDT (TRC20) to:</b></p>
 
-    <input id="walletInput" type="text" value="{{ wallet }}" readonly style="width:100%; text-align:center;">
+    <input id="walletInput" type="text" value="{{ wallet }}" readonly style="width:100%; text-align:center; padding:10px;">
 
     <br><br>
 
-    <button onclick="copyWallet()">نسخ العنوان</button>
+    <button type="button" onclick="copyWallet()" class="btn">
+        نسخ العنوان
+    </button>
 
     <br><br>
 
     <img src="{{ url_for('static', filename='qr.png') }}" width="220">
+
+    <p style="color:gray; font-size:14px;">
+        امسح الباركود أو انسخ العنوان للدفع
+    </p>
 </div>
 
 <script>
 function copyWallet() {
-    var copyText = document.getElementById("walletInput");
-    copyText.select();
-    copyText.setSelectionRange(0, 99999);
-    navigator.clipboard.writeText(copyText.value);
+    const input = document.getElementById("walletInput");
+    input.select();
+    input.setSelectionRange(0, 99999);
+    navigator.clipboard.writeText(input.value);
     alert("تم نسخ العنوان");
 }
 </script>
-        <img src="{{ url_for('static', filename='qr.png') }}" width="200">
-        <br><br>
-
-    </div>
-
-    <form method="POST">
-        <label>Transaction ID / TxID</label>
-        <input name="txid" placeholder="ضع رقم التحويل بعد الدفع" required>
-        <button class="btn" type="submit">I Paid</button>
-    </form>
-</div>
-{% endblock %}
-<h3>الدفع عبر USDT</h3>
-
-<p>أرسل المبلغ إلى العنوان التالي:</p>
-
-<input type="text" value="{{ wallet }}" readonly style="width:100%">
-
-<br><br>
-<br><br>
-<img src="{{ url_for('static', filename='qr.png') }}" width="220" alt="USDT QR Code">
-<br><br>
-
-
-
-
-
-
