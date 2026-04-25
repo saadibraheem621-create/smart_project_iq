@@ -78,7 +78,7 @@ def pay(order_id):
         order.status = "payment_submitted"
         db.session.commit()
         flash("تم إرسال رقم التحويل")
-        return redirect(url_for("thanks", order_id=order.id))
+        return redirect(url_for("send_whatsapp", order_id=order.id))
 
     return render_template("pay.html", order=order, wallet=USDT_TRC20_WALLET)
 
