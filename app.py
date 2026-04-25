@@ -8,6 +8,21 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+@app.route("/pay/<id>", methods=["GET", "POST"])
+def pay(id):
+    if request.method == "POST":
+        method = request.form.get("method")
+
+        if method == "usdt":
+            return render_template("usdt.html")
+
+        elif method == "paypal":
+            return render_template("paypal.html")
+
+        elif method == "card":
+            return render_template("card.html")
+
+    return render_template("choose_payment.html")
 
 url = os.environ.get("DATABASE_URL")
 
@@ -90,6 +105,14 @@ def order(service_id):
     return render_template("order.html", service=service)
 
 # صفحة الدفع
+<form method="POST">
+    <select name="method">
+        <option value="usdt">USDT</option>
+        <option value="paypal">PayPal</option>
+        <option value="card">Visa / MasterCard</option>
+    </select>
+    <button type="submit">اختيار</button>
+</form>
 @app.route("/pay/<int:order_id>", methods=["GET", "POST"])
 def pay(order_id):
     order = Order.query.get_or_404(order_id)
