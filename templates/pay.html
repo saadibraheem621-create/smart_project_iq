@@ -45,3 +45,50 @@ function confirmPayment() {
     });
 }
 </script>
+<h3>اختر وسيلة الدفع</h3>
+
+<div class="wallet" style="text-align:center;">
+
+    <h4>USDT - TRC20</h4>
+    <input type="text" value="{{ wallet }}" readonly style="width:100%; text-align:center;">
+    <br><br>
+    <img src="{{ url_for('static', filename='qr.png') }}" width="220">
+
+    <hr>
+
+    <h4>ZainCash</h4>
+    <p>رقم المحفظة:</p>
+    <input type="text" value="078XXXXXXXX" readonly style="width:100%; text-align:center;">
+
+    <hr>
+
+    <h4>AsiaHawala</h4>
+    <p>رقم المحفظة:</p>
+    <input type="text" value="077XXXXXXXX" readonly style="width:100%; text-align:center;">
+
+    <hr>
+
+    <h4>Qi Card</h4>
+    <p>الدفع عبر التحويل إلى:</p>
+    <input type="text" value="اكتب معلوماتك هنا" readonly style="width:100%; text-align:center;">
+
+</div>
+
+<form method="POST">
+    <label>اختر طريقة الدفع</label>
+    <select name="payment_method" required>
+        <option value="USDT TRC20">USDT TRC20</option>
+        <option value="ZainCash">ZainCash</option>
+        <option value="AsiaHawala">AsiaHawala</option>
+        <option value="Qi Card">Qi Card</option>
+    </select>
+
+    <br><br>
+
+    <label>رقم العملية / TxID</label>
+    <input type="text" name="txid" required>
+
+    <br><br>
+
+    <button type="submit" class="btn">دفعت</button>
+</form>
