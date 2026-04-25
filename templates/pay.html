@@ -1,7 +1,7 @@
 <div class="wallet" style="text-align:center;">
     <p><b>Send USDT (TRC20) to:</b></p>
 
-    <input id="walletInput" type="text" value="{{ wallet }}" readonly style="width:100%; text-align:center; padding:10px;">
+    <input id="walletInput" type="text" value="{{ wallet }}" readonly style="width:100%; text-align:center;">
 
     <br><br>
 
@@ -11,19 +11,9 @@
 
     <br><br>
 
-    
+    <img src="{{ url_for('static', filename='qr.png') }}" width="220">
 
     <p style="color:gray; font-size:14px;">
         امسح الباركود أو انسخ العنوان للدفع
     </p>
 </div>
-
-<script>
-function copyWallet() {
-    const input = document.getElementById("walletInput");
-    input.select();
-    input.setSelectionRange(0, 99999);
-    navigator.clipboard.writeText(input.value);
-    alert("تم نسخ العنوان");
-}
-</script>
