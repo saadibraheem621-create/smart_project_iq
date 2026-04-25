@@ -20,7 +20,12 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
 
-app = Flask(__name__)
+with app.app_context():
+    db.create_all
+    print("database connected and tables created")
+    class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100))
 
 # إعدادات
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "change-this-secret")
