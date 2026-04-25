@@ -7,3 +7,6 @@
     <p>سنتحقق من الدفع ثم نبدأ تنفيذ المشروع.</p>
 </div>
 {% endblock %}
+<a href="{{ url_for('send_whatsapp', order_id=order.id) }}" class="btn">
+  إرسال تفاصيل الطلب على واتساب
+</a>

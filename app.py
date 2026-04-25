@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import os
+import urllib.parse
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "change-this-secret")
@@ -84,6 +85,25 @@ def pay(order_id):
 def thanks(order_id):
     order = Order.query.get_or_404(order_id)
     return render_template("thanks.html", order=order)
+@app.route("/send-whatsapp/<int:order_id>")
+def send_whatsapp(order_id):
+    order = Order.query.get_or_404(order_id)
+
+    phone = "964XXXXXXXXXX"  # غيرها إلى رقمك بدون +
+    message = f"""
+طلب جديد من Smart Project IQ
+
+رقم الطلب: {order.id}
+الاسم: {order.customer_name}
+الإيميل: {order.email}
+الخدمة: {order.service_name}
+السعر: {order.price} USDT
+TxID: {order.txid or "-"}
+الحالة: {order.status}
+"""
+
+    url = "https://wa.me/" + phone + "?text=" + urllib.parse.quote(message)
+    return redirect(url)
 
 # لوحة الادمن
 @app.route("/admin")
