@@ -71,18 +71,27 @@ def pay(order_id):
     order = Order.query.get_or_404(order_id)
 
     if request.method == "POST":
-        order.txid = request.form.get("txid", "")
-        order.status = "payment_submitted"
-        db.session.commit()
-        flash("تم إرسال رقم التحويل")
-        return redirect(url_for("send_whatsapp", order_id=order.id))
+     customer_name = request.form.get("customer_name")
+    email = request.form.get("email")
+    method = request.form.get("method", "usdt")
 
-    return render_template(
-        "pay.html",
-        order=order,
-        wallet=USDT_TRC20_WALLET,
-        method=order.payment_method
+    if not customer_name or not email:
+        flash("يرجى إدخال الاسم والإيميل")
+        return redirect(url_for("order", service_id=service_id))
+
+    new_order = Order(
+        customer_name=customer_name,
+        email=email,
+        service_id=service["id"],
+        service_name=service["name"],
+        price=service["price"],
+        note=request.form.get("note", ""),
+        payment_method=method
     )
+    db.session.add(new_order)
+    db.session.commit()
+    return redirect(url_for("pay", order_id=new_order.id))
+    
 
 @app.route("/confirm_payment", methods=["POST"])
 def confirm_payment():
