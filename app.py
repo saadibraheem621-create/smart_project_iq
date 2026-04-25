@@ -85,6 +85,7 @@ def home():
 # إنشاء طلب
 @app.route("/order/<service_id>", methods=["GET", "POST"])
 def order(service_id):
+    payment_method = db.Column(db.String(50), nullable=True)
     service = next((s for s in SERVICES if s["id"] == service_id), None)
     if not service:
         return "Service not found", 404
@@ -97,6 +98,7 @@ def order(service_id):
             service_name=service["name"],
             price=service["price"],
             note=request.form.get("note", "")
+            method = request.form.get("method")
         )
         db.session.add(new_order)
         db.session.commit()
@@ -116,7 +118,12 @@ def pay(order_id):
         flash("تم إرسال رقم التحويل")
         return redirect(url_for("send_whatsapp", order_id=order.id))
 
-    return render_template("pay.html", order=order, wallet=USDT_TRC20_WALLET)
+    return render_template(
+    "pay.html",
+    order=order,
+    wallet=USDT_TRC20_WALLET,
+    method=order.payment_method
+)
 
 # زر تأكيد الدفع (AJAX)
 @app.route('/confirm_payment', methods=['POST'])
