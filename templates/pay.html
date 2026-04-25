@@ -9,6 +9,9 @@
     <div class="wallet">
         <p>Send USDT using TRC20 network to:</p>
         <code>{{ wallet }}</code>
+        <img src="{{ url_for('static', filename='qr.png') }}" width="200">
+        <br><br>
+
     </div>
 
     <form method="POST">
@@ -18,3 +21,16 @@
     </form>
 </div>
 {% endblock %}
+<h3>الدفع عبر USDT</h3>
+
+<p>أرسل المبلغ إلى العنوان التالي:</p>
+
+<input type="text" value="{{ wallet }}" readonly style="width:100%">
+
+<br><br>
+
+
+
+
+
+
