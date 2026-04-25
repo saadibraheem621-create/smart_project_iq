@@ -10,17 +10,17 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
 
-# ضع هنا عنوان محفظتك USDT TRC20 من Binance
-import os
+# عنوان محفظتك
+USDT_TRC20_WALLET = "TTDgpsoLSry46z2cXaiXd9uxN8vj8pL3ov"
 
-USDT_TRC20_WALLET = os.environ.get("WALLET")
-
+# الخدمات
 SERVICES = [
     {"id": "data-analysis", "name": "Data Analysis Report", "price": 50, "desc": "تحليل بيانات + رسوم بيانية + تقرير PDF"},
     {"id": "dashboard", "name": "Excel / Power BI Dashboard", "price": 80, "desc": "داشبورد احترافي للمبيعات أو المخزون"},
     {"id": "ai-model", "name": "AI / ML Model", "price": 150, "desc": "موديل تنبؤ أو تصنيف باستخدام Python"},
 ]
 
+# جدول الطلبات
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     customer_name = db.Column(db.String(120), nullable=False)
@@ -33,14 +33,17 @@ class Order(db.Model):
     status = db.Column(db.String(30), default="waiting_payment")
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
+# إنشاء الداتا بيز تلقائياً
 @app.before_request
 def create_tables():
     db.create_all()
 
+# الصفحة الرئيسية
 @app.route("/")
 def home():
     return render_template("index.html", services=SERVICES)
 
+# إنشاء طلب
 @app.route("/order/<service_id>", methods=["GET", "POST"])
 def order(service_id):
     service = next((s for s in SERVICES if s["id"] == service_id), None)
@@ -62,6 +65,7 @@ def order(service_id):
 
     return render_template("order.html", service=service)
 
+# صفحة الدفع (مهم ✅)
 @app.route("/pay/<int:order_id>", methods=["GET", "POST"])
 def pay(order_id):
     order = Order.query.get_or_404(order_id)
@@ -75,16 +79,19 @@ def pay(order_id):
 
     return render_template("pay.html", order=order, wallet=USDT_TRC20_WALLET)
 
+# صفحة الشكر
 @app.route("/thanks/<int:order_id>")
 def thanks(order_id):
     order = Order.query.get_or_404(order_id)
     return render_template("thanks.html", order=order)
 
+# لوحة الادمن
 @app.route("/admin")
 def admin():
     orders = Order.query.order_by(Order.created_at.desc()).all()
     return render_template("admin.html", orders=orders)
 
+# تأكيد الدفع
 @app.route("/admin/mark-paid/<int:order_id>")
 def mark_paid(order_id):
     order = Order.query.get_or_404(order_id)
