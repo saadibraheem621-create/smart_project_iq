@@ -98,16 +98,25 @@ def thanks(order_id):
 def send_whatsapp(order_id):
     order = Order.query.get_or_404(order_id)
 
-    phone = "964XXXXXXXXXX"
-    message = f"""
-طلب جديد
+    phone = "9647739046052"
+    message = f"""message 
+طلب جديد 🔥
 
 رقم الطلب: {order.id}
 الاسم: {order.customer_name}
+الإيميل: {order.email}
+
 الخدمة: {order.service_name}
 السعر: {order.price} USDT
-TxID: {order.txid or "-"}
+
+TxID: {order.txid or "لم يتم إدخاله"}
+الحالة: {order.status}
+
+Smart Project IQ
 """
+
+
+
 
     url = "https://wa.me/" + phone + "?text=" + urllib.parse.quote(message)
     return redirect(url)
