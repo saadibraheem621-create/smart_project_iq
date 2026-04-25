@@ -8,7 +8,29 @@
 
     <div class="wallet">
         <p>Send USDT using TRC20 network to:</p>
-        <code>{{ wallet }}</code>
+        <div class="wallet" style="text-align:center;">
+    <p><b>Send USDT (TRC20) to:</b></p>
+
+    <input id="walletInput" type="text" value="{{ wallet }}" readonly style="width:100%; text-align:center;">
+
+    <br><br>
+
+    <button onclick="copyWallet()">نسخ العنوان</button>
+
+    <br><br>
+
+    <img src="{{ url_for('static', filename='qr.png') }}" width="220">
+</div>
+
+<script>
+function copyWallet() {
+    var copyText = document.getElementById("walletInput");
+    copyText.select();
+    copyText.setSelectionRange(0, 99999);
+    navigator.clipboard.writeText(copyText.value);
+    alert("تم نسخ العنوان");
+}
+</script>
         <img src="{{ url_for('static', filename='qr.png') }}" width="200">
         <br><br>
 
