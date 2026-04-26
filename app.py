@@ -36,10 +36,10 @@ class Order(db.Model):
     txid = db.Column(db.String(200), nullable=True)
     status = db.Column(db.String(30), default="waiting_payment")
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
-
+db=SQLAlchemy(app)
 with app.app_context():
-    db.drop_all()
     db.create_all()
+    
 
 @app.route("/")
 def home():
