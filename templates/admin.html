@@ -1,26 +1,36 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Orders Dashboard</h1>
-<table>
-    <tr>
-        <th>ID</th>
-        <th>Customer</th>
-        <th>Service</th>
-        <th>Price</th>
-        <th>TxID</th>
-        <th>Status</th>
-        <th>Action</th>
-    </tr>
-    {% for order in orders %}
-    <tr>
-        <td>{{ order.id }}</td>
-        <td>{{ order.customer_name }}<br>{{ order.email }}</td>
-        <td>{{ order.service_name }}</td>
-        <td>${{ order.price }}</td>
-        <td>{{ order.txid or "-" }}</td>
-        <td>{{ order.status }}</td>
-        <td><a class="small-btn" href="/admin/mark-paid/{{ order.id }}">Mark Paid</a></td>
-    </tr>
-    {% endfor %}
+
+<h1>لوحة الطلبات</h1>
+
+<table border="1" cellpadding="8" style="width:100%; text-align:center;">
+  <tr>
+    <th>ID</th>
+    <th>الاسم</th>
+    <th>الإيميل</th>
+    <th>الخدمة</th>
+    <th>السعر</th>
+    <th>طريقة الدفع</th>
+    <th>TxID</th>
+    <th>الحالة</th>
+    <th>إجراء</th>
+  </tr>
+
+  {% for order in orders %}
+  <tr>
+    <td>{{ order.id }}</td>
+    <td>{{ order.customer_name }}</td>
+    <td>{{ order.email }}</td>
+    <td>{{ order.service_name }}</td>
+    <td>{{ order.price }}</td>
+    <td>{{ order.payment_method }}</td>
+    <td>{{ order.txid or "-" }}</td>
+    <td>{{ order.status }}</td>
+    <td>
+      <a href="{{ url_for('mark_paid', order_id=order.id) }}">تأكيد الدفع</a>
+    </td>
+  </tr>
+  {% endfor %}
 </table>
+
 {% endblock %}
