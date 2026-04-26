@@ -1,21 +1,31 @@
-<form method="POST">
+{% extends "base.html" %}
+{% block content %}
 
-    <label>الاسم</label>
-    <input name="customer_name" required>
+<div class="form-box">
+    <h1>Order: {{ service.name }}</h1>
+    <p>Price: ${{ service.price }}</p>
 
-    <label>الإيميل</label>
-    <input name="email" required>
+    <form method="POST">
 
-    <label>طريقة الدفع</label>
-    <select name="method" required>
-        <option value="usdt">USDT</option>
-        <option value="paypal">PayPal</option>
-        <option value="card">Visa / MasterCard</option>
-    </select>
+        <label>الاسم</label>
+        <input name="customer_name" placeholder="اكتب اسمك" required>
 
-    <label>ملاحظات</label>
-    <textarea name="note"></textarea>
+        <label>الإيميل / تيليگرام</label>
+        <input name="email" placeholder="example@gmail.com" required>
 
-    <button type="submit">متابعة الدفع</button>
+        <label>طريقة الدفع</label>
+        <select name="method" required>
+            <option value="usdt">USDT</option>
+            <option value="paypal">PayPal</option>
+            <option value="card">Visa / MasterCard</option>
+        </select>
 
-</form>
+        <label>ملاحظات</label>
+        <textarea name="note" rows="4" placeholder="اكتب تفاصيل الطلب أو ملاحظاتك"></textarea>
+
+        <button class="btn" type="submit">متابعة الدفع</button>
+
+    </form>
+</div>
+
+{% endblock %}
