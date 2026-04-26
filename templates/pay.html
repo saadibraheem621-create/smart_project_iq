@@ -1,133 +1,32 @@
-<div class="wallet" style="text-align:center;">
+{% extends "base.html" %}
+{% block content %}
 
-    <p><b>Send USDT (TRC20) to:</b></p>
+<div class="form-box">
+  <h1>الدفع</h1>
 
-    <input id="walletInput" type="text" value="{{ wallet }}" readonly style="width:100%; text-align:center;">
+  <p><b>رقم الطلب:</b> {{ order.id }}</p>
+  <p><b>الخدمة:</b> {{ order.service_name }}</p>
+  <p><b>السعر:</b> {{ order.price }} USDT</p>
+  <p><b>طريقة الدفع:</b> {{ order.payment_method }}</p>
 
-    <br><br>
-
-    <button type="button" onclick="copyWallet()" class="btn">
-        نسخ العنوان
-    </button>
-
-    <br><br>
-
+  {% if order.payment_method == "usdt" %}
+    <h3>الدفع عبر USDT TRC20</h3>
+    <p><b>Wallet:</b> {{ wallet }}</p>
     <img src="{{ url_for('static', filename='qr.png') }}" width="220">
+    <p>انسخ العنوان أو امسح الباركود للدفع.</p>
+  {% elif order.payment_method == "paypal" %}
+    <h3>الدفع عبر PayPal</h3>
+    <p>سيتم تزويدك برابط الدفع عبر واتساب بعد إرسال الطلب.</p>
+  {% elif order.payment_method == "card" %}
+    <h3>الدفع عبر Visa / MasterCard</h3>
+    <p>الدفع بالبطاقة يحتاج بوابة دفع مفعّلة. حالياً سيتم التواصل معك عبر واتساب.</p>
+  {% endif %}
 
-    <p style="color:gray; font-size:14px;">
-        انسخ الباركود أو انسخ العنوان للدفع
-    </p>
-
-    <!-- هذا المهم -->
-    <form method="POST">
-    <input type="text" name="txid" placeholder="ادخل TxID" required>
-    
-    <button type="submit">
-        دفعت
-    </button>
-</form>
-
+  <form method="POST">
+    <label>TxID أو ملاحظة الدفع</label>
+    <input name="txid" placeholder="اكتب رقم التحويل أو ملاحظة الدفع">
+    <button class="btn" type="submit">أرسلت الدفع</button>
+  </form>
 </div>
 
-<script>
-function confirmPayment() {
-    alert("تم استلام طلبك، جاري التحقق من الدفع");
-}
-</script>
-<script>
-function confirmPayment() {
-    fetch('/confirm_payment', {
-        method: 'POST'
-    })
-    .then(res => res.json())
-    .then(data => {
-        alert(data.message);
-    });
-}
-</script>
-<h3>اختر وسيلة الدفع</h3>
-
-<div class="wallet" style="text-align:center;">
-
-    <h4>USDT - TRC20</h4>
-    <input type="text" value="{{ wallet }}" readonly style="width:100%; text-align:center;">
-    <br><br>
-    <img src="{{ url_for('static', filename='qr.png') }}" width="220">
-
-    <hr>
-
-    <h4>ZainCash</h4>
-    <p>رقم المحفظة:</p>
-    <input type="text" value="009647739046052" readonly style="width:100%; text-align:center;">
-
-    <hr>
-
-    <h4>AsiaHawala</h4>
-    <p>رقم المحفظة:</p>
-    <input type="text" value="077XXXXXXXX" readonly style="width:100%; text-align:center;">
-
-    <hr>
-
-    <h4>Qi Card</h4>
-    <p>الدفع عبر التحويل إلى:</p>
-    <input type="text" value="7490418196" readonly style="width:100%; text-align:center;">
-
-</div>
-
-<form method="POST">
-    <label>اختر طريقة الدفع</label>
-    <select name="payment_method" required>
-        <option value="USDT TRC20">USDT TRC20</option>
-        <option value="ZainCash">ZainCash</option>
-        <option value="AsiaHawala">AsiaHawala</option>
-        <option value="Qi Card">Qi Card</option>
-    </select>
-
-    <br><br>
-
-    <label>رقم العملية / TxID</label>
-    <input type="text" name="txid" required>
-
-    <br><br>
-
-    <button type="submit" class="btn">دفعت</button>
-</form>
-{% if method == "usdt" %}
-    <h3>Send USDT (TRC20) to:</h3>
-
-    <input id="walletInput" type="text" value="{{ wallet }}" readonly style="width:100%; text-align:center;">
-
-    <button type="button" onclick="copyWallet()">نسخ العنوان</button>
-
-    <br><br>
-
-    <img src="{{ url_for('static', filename='qr.png') }}" width="220">
-
-{% elif method == "paypal" %}
-    <h3>PayPal</h3>
-    <p>راسلنا على واتساب لإرسال رابط PayPal.</p>
-
-{% elif method == "card" %}
-    <h3>Visa / MasterCard</h3>
-    <p>الدفع بالبطاقة غير مفعل حالياً. سيتم التواصل معك.</p>
-
-{% else %}
-    <h3>Payment method not selected</h3>
-{% endif %}
-
-<br><br>
-
-<form method="POST">
-    <label>Transaction ID / TxID</label>
-    <input type="text" name="txid" placeholder="ادخل رقم التحويل" required>
-    <button type="submit">دفعت</button>
-</form>
-
-<script>
-function copyWallet() {
-    const input = document.getElementById("walletInput");
-    input.select();
-    navigator.clipboard.writeText(input.value);
-    alert("تم نسخ العنوان");
-}
-</script>
+{% endblock %}
