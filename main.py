@@ -7,13 +7,19 @@ import urllib.parse
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "change-this-secret")
 
-# 🔥 دعم Railway Postgres
-db_url = os.environ.get("DATABASE_URL", "sqlite:///orders.db")
+# 🔥 إعداد الداتابيس (Railway + fallback محلي)
+db_url = os.environ.get("DATABASE_URL")
+
+if not db_url:
+    db_url = "sqlite:///orders.db"  # fallback محلي
+
 if db_url.startswith("postgres://"):
     db_url = db_url.replace("postgres://", "postgresql://", 1)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = db_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+print("DATABASE_URL:", db_url)  # للتأكد
 
 db = SQLAlchemy(app)
 
@@ -73,7 +79,7 @@ def order(service_id):
 
     return render_template("order.html", service=service)
 
-# 💳 صفحة الدفع (تم الإصلاح)
+# 💳 صفحة الدفع
 @app.route("/pay/<int:order_id>", methods=["GET", "POST"])
 def pay(order_id):
     order = Order.query.get_or_404(order_id)
